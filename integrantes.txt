@@ -1,2 +1,6 @@
 Paula Alejandra Giraldo Cañón...paucha2712@gmail.com... 3004114805 
+<<<<<<< HEAD
 Nelson Sanjuan ...nelsonsg9816@gmail.com... 3043807033
+=======
+Nelson Sanjuan... nelsonsg9816@gmail.com...3043807033
+>>>>>>> 43d100609da537846990043a6bfbf7e1c9d091b4

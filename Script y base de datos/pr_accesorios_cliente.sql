@@ -1,0 +1,1 @@
+SELECT * FROM pr_accesorios.cliente;

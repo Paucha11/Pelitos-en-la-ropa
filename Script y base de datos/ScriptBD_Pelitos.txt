@@ -1,0 +1,91 @@
+create database pr_accesorios ;
+use pr_accesorios ;
+
+
+CREATE TABLE IF NOT EXISTS pr_accesorios.cliente (
+  idCliente INT NOT NULL,
+  nombre VARCHAR(45) NOT NULL,
+  correo_electronico VARCHAR(45) NOT NULL,
+  telefono VARCHAR(45) NOT NULL,
+  direccion VARCHAR(45) NOT NULL,
+  PRIMARY KEY (idCliente));
+
+
+CREATE TABLE IF NOT EXISTS pr_accesorios.producto (
+  idProducto INT NOT NULL,
+  nombre VARCHAR(45) NOT NULL,
+  descripcion VARCHAR(45) NOT NULL,
+  precio_compra DOUBLE NOT NULL,
+  precio_venta DOUBLE NOT NULL,
+  cantidad INT NOT NULL,
+  PRIMARY KEY (idProducto));
+  
+CREATE TABLE IF NOT EXISTS pr_accesorios.proveedor (
+  idproveedor INT NOT NULL,
+  nombre VARCHAR(45) NOT NULL,
+  telefono VARCHAR(45) NOT NULL,
+  direccion VARCHAR(45) NOT NULL,
+  producto VARCHAR(45) NOT NULL,
+  correo_electronico VARCHAR(45) NOT NULL,
+  PRIMARY KEY (idproveedor));
+
+CREATE TABLE IF NOT EXISTS pr_accesorios.compra (
+  proveedor_idproveedor INT NOT NULL,
+  Producto_idProducto INT NOT NULL,
+  detalles VARCHAR(45) NOT NULL,
+  valor_uniario DOUBLE NOT NULL,
+  cantidad INT NOT NULL,
+  PRIMARY KEY (proveedor_idproveedor, Producto_idProducto),
+  INDEX fk_proveedor_has_Producto_Producto1_idx (Producto_idProducto ASC) VISIBLE,
+  INDEX fk_proveedor_has_Producto_proveedor1_idx (proveedor_idproveedor ASC) VISIBLE,
+  CONSTRAINT fk_proveedor_has_Producto_Producto1
+    FOREIGN KEY (Producto_idProducto)
+    REFERENCES pr_accesorios.producto (idProducto),
+  CONSTRAINT fk_proveedor_has_Producto_proveedor1
+    FOREIGN KEY (proveedor_idproveedor)
+    REFERENCES pr_accesorios.proveedor (idproveedor));
+
+
+CREATE TABLE IF NOT EXISTS pr_accesorios.vendedor (
+  id_vendedor INT NOT NULL,
+  nombre_completo VARCHAR(45) NOT NULL,
+  telefono VARCHAR(45) NOT NULL,
+  direccion VARCHAR(45) NOT NULL,
+  correo_electronico VARCHAR(45) NOT NULL,
+  PRIMARY KEY (id_vendedor));
+
+
+CREATE TABLE IF NOT EXISTS pr_accesorios.venta (
+  idProducto INT NOT NULL,
+  precio DOUBLE NOT NULL,
+  cantidad INT NOT NULL,
+  tipo_mascota VARCHAR(45) NOT NULL,
+  metodo_pago VARCHAR(45) NOT NULL,
+  vendedor INT NOT NULL,
+  cliente INT NOT NULL,
+  PRIMARY KEY (idProducto),
+  INDEX venta_cliente_idx (cliente ASC) VISIBLE,
+  INDEX venta_admin_idx (vendedor ASC) VISIBLE,
+  CONSTRAINT venta_admin
+    FOREIGN KEY (vendedor)
+    REFERENCES pr_accesorios.vendedor (id_vendedor),
+  CONSTRAINT venta_cliente
+    FOREIGN KEY (cliente)
+    REFERENCES pr_accesorios.cliente (idCliente));
+
+
+
+
+CREATE TABLE IF NOT EXISTS pr_accesorios.producto_has_venta (
+  Producto_idProducto INT NOT NULL,
+  Venta_idProducto INT NOT NULL,
+  PRIMARY KEY (Producto_idProducto, Venta_idProducto),
+  INDEX fk_Producto_has_Venta_Venta1_idx (Venta_idProducto ASC) VISIBLE,
+  INDEX fk_Producto_has_Venta_Producto1_idx (Producto_idProducto ASC) VISIBLE,
+  CONSTRAINT fk_Producto_has_Venta_Producto1
+    FOREIGN KEY (Producto_idProducto)
+    REFERENCES pr_accesorios.producto (idProducto),
+  CONSTRAINT fk_Producto_has_Venta_Venta1
+    FOREIGN KEY (Venta_idProducto)
+    REFERENCES pr_accesorios.venta (idProducto));
+
